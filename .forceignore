@@ -1,0 +1,27 @@
+# List files or directories below to ignore uncommitted changes during force:source:push/pull
+# LWC configuration files
+**/jsconfig.json
+**/.eslintrc.json
+
+# LWC Jest
+**/__tests__/**
+
+# Profiles (use Permission Sets instead)
+**/profiles/**
+
+# Standard settings not packageable
+**/settings/**
+
+# AppMenu
+**/appMenus/**
+
+# Data Cloud internals
+**ssot**
+
+# Scratch org specific
+**/connectedApps/**
+**/staticresources/**/*.json
+
+# IDE specific
+.sfdx
+.sf

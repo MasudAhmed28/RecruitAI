@@ -1,0 +1,15 @@
+{
+  "orgName": "GenAI Scratch Org",
+  "edition": "Developer",
+  "features": [
+    "Einstein1AIPlatform"
+  ],
+  "settings": {
+    "einsteinGptSettings": {
+      "enableEinsteinGptPlatform": true
+    },
+    "agentPlatformSettings": {
+      "enableAgentPlatform": true
+    }
+  }
+}

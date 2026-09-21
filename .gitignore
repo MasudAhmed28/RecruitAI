@@ -1,0 +1,25 @@
+# Salesforce DX
+.sfdx/
+.sf/
+.localdevserver/
+
+# LWC
+**/node_modules/**
+**/coverage/**
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Scratch org auth
+authFile.json

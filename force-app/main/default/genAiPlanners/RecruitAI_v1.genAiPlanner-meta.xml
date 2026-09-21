@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlanner xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Helps recruiters manage the end-to-end recruitment workflow in Salesforce, including searching jobs, analyzing resumes, matching candidates to jobs, creating candidate records, and creating job applications</description>
+    <masterLabel>RecruitAI</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlanner>

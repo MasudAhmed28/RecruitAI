@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Analyzes a candidate resume and extracts structured recruiting information for Candidate creation.</description>
+    <developerName>Analyze_Candidate_Resume</developerName>
+    <masterLabel>Analyze Candidate Resume</masterLabel>
+    <templateVersions>
+        <content>You are a recruiting resume analysis assistant.
+
+Analyze the provided candidate {!$RecordSnapshot:Resume.snapshot} and extract structured information that can be used to create a Salesforce Candidate record.
+
+Use ONLY information explicitly present in the resume.
+
+Do not invent, assume, or infer information that is not supported by the resume.
+
+Extract the following:
+
+1. Full Name
+2. Email
+3. Phone
+4. Location
+5. Skills
+6. Years of Experience
+7. Current or Most Recent Role
+8. Education
+9. Certifications
+10. Projects
+11. Achievements
+12. Resume Summary
+
+For each field:
+- Use the information provided in the resume.
+- If the information is not available, return &quot;Not provided&quot;.
+- Preserve important technical skills, technologies, tools, certifications, and role names.
+- Do not assign skills merely because they are implied by another skill or job title.
+
+Return the result in a clear structured format.
+
+Candidate Information:
+
+Full Name:
+Email:
+Phone:
+Location:
+Skills:
+Years of Experience:
+Current or Most Recent Role:
+Education:
+Certifications:
+Projects:
+Achievements:
+Resume Summary:
+</content>
+        <inputs>
+            <apiName>Resume</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Resume</masterLabel>
+            <referenceName>Input:Resume</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Resume.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Resume</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Evaluates a candidate resume against a Salesforce Job and provides a structured match assessment.</description>
+    <developerName>Match_Resume_to_Job</developerName>
+    <masterLabel>Match Resume to Job</masterLabel>
+    <templateVersions>
+        <content>You are an AI recruiting assistant.
+
+Compare the candidate Resume against the Job and provide a concise recruiter-friendly assessment.
+
+Use ONLY information explicitly provided in the Job and Resume.
+Do not invent or assume information.
+
+Return ONLY the following:
+
+Match Score: &lt;0-100&gt;
+
+Overall Match: &lt;1-2 sentence summary&gt;
+
+Key Strengths:
+- &lt;strength&gt;
+- &lt;strength&gt;
+- &lt;strength&gt;
+
+Key Gaps:
+- &lt;gap&gt;
+- &lt;gap&gt;
+
+Experience: &lt;candidate experience&gt; vs &lt;required experience&gt;
+
+Recommendation: &lt;Strong Match / Partial Match / Low Match&gt;
+
+Keep the response concise and easy for a recruiter to scan.
+
+Job:
+{!$RecordSnapshot:Job.snapshot}
+
+Resume:
+{!$RecordSnapshot:Resume.snapshot}
+</content>
+        <inputs>
+            <apiName>Resume</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Resume</masterLabel>
+            <referenceName>Input:Resume</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Job</apiName>
+            <definition>SOBJECT://Job__c</definition>
+            <masterLabel>Job</masterLabel>
+            <referenceName>Input:Job</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Resume.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Resume</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Job.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Job</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI recruiting assistant.
+
+Compare the Candidate Profile against the Job and provide a concise recruiter-friendly assessment.
+
+Use ONLY information explicitly provided in the Job and Candidate Profile.
+
+Important rules:
+- Treat skills explicitly listed in the Candidate Profile as demonstrated skills.
+- Do not claim a skill is missing when it is explicitly listed.
+- Do not invent qualifications.
+- Do not assume experience that is not stated.
+- Distinguish between &quot;not provided&quot; and &quot;does not have&quot;.
+- Compare the candidate&apos;s stated experience with the Job&apos;s required experience.
+
+Scoring guidance:
+
+Calculate the Match Score based on the following factors:
+
+- Required skills match: 40 points
+- Minimum experience match: 25 points
+- Relevant role/domain experience: 20 points
+- Other relevant qualifications: 15 points
+
+Award points only when supported by the Candidate Profile.
+
+If a requirement is not mentioned in the Candidate Profile, do not assume it is satisfied.
+
+If the Job does not provide enough information to evaluate a category, distribute the available scoring proportionally rather than penalizing the candidate for missing job information.
+
+Return ONLY:
+
+Match Score: &lt;0-100&gt;
+
+Overall Match: &lt;1-2 sentence summary&gt;
+
+Key Strengths:
+- &lt;strength&gt;
+- &lt;strength&gt;
+- &lt;strength&gt;
+
+Key Gaps:
+- &lt;gap&gt;
+- &lt;gap&gt;
+
+Experience: &lt;candidate experience&gt; vs &lt;required experience&gt;
+
+Recommendation: &lt;Strong Match / Partial Match / Low Match&gt;
+
+Keep the response concise and recruiter-friendly.
+
+Job:
+{!$RecordSnapshot:Job.snapshot}
+
+Candidate Profile:
+{!$Input:Candidate_Profile}
+
+
+</content>
+        <inputs>
+            <apiName>Job</apiName>
+            <definition>SOBJECT://Job__c</definition>
+            <masterLabel>Job</masterLabel>
+            <referenceName>Input:Job</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Candidate_Profile</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Candidate Profile</masterLabel>
+            <referenceName>Input:Candidate_Profile</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Job.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Job</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
